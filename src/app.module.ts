@@ -17,4 +17,4 @@ import config from './config';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

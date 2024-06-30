@@ -1,6 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmailService } from './email.service';
 
+jest.mock('src/config');
+jest.mock('nodemailer', () => ({
+  createTransport: () => ({
+    sendMail: jest.fn(),
+  }),
+}));
+
 describe('EmailService', () => {
   let service: EmailService;
 
@@ -12,7 +19,7 @@ describe('EmailService', () => {
     service = module.get<EmailService>(EmailService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should resolve to undefined', async () => {
+    expect(service.createEmail('test@mail.com')).resolves.toBeUndefined();
   });
 });

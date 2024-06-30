@@ -5,4 +5,4 @@ import { MqService } from './mq.service';
   providers: [MqService],
   exports: [MqService],
 })
-export class MqModule { }
+export class MqModule {}

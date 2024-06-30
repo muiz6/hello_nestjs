@@ -1,6 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MqService } from './mq.service';
 
+jest.mock('src/config');
+jest.mock('amqplib', () => ({
+  connect: () => ({
+    createChannel: jest.fn(() => ({
+      sendToQueue: jest.fn(),
+      close: jest.fn(),
+    })),
+    close: jest.fn(),
+  }),
+}));
+
 describe('MqService', () => {
   let service: MqService;
 
@@ -12,7 +23,7 @@ describe('MqService', () => {
     service = module.get<MqService>(MqService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should resolve as undefined', () => {
+    expect(service.createMessage()).resolves.toBeUndefined();
   });
 });

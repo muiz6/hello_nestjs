@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import axios from 'axios';
 import { UserService } from './user.service';
 import { StorageService } from 'src/storage/storage.service';
@@ -13,7 +22,7 @@ export class UserController {
     private readonly storageService: StorageService,
     private readonly emailService: EmailService,
     private readonly mqService: MqService,
-  ) { }
+  ) {}
 
   @Post()
   async createUser(@Body() createUser: CreateUserRequestDto) {
@@ -38,7 +47,9 @@ export class UserController {
 
     let byteArray, mimeType;
     if (userRecord) {
-      const file = await this.storageService.getStoredFile(userRecord.avatarStorageUrl);
+      const file = await this.storageService.getStoredFile(
+        userRecord.avatarStorageUrl,
+      );
       mimeType = file.mimeType;
       byteArray = file.data;
     } else {

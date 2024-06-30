@@ -17,4 +17,4 @@ import { MqModule } from 'src/mq/mq.module';
   controllers: [UserController],
   providers: [UserService],
 })
-export class UserModule { }
+export class UserModule {}

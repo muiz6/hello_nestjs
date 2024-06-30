@@ -53,7 +53,7 @@ export class UserController {
       mimeType = file.mimeType;
       byteArray = file.data;
     } else {
-      const user = await this.userService.getUserById('1');
+      const user = await this.userService.getUserById(params.id);
       const imgResponse = await axios.get(user.avatar, {
         responseType: 'arraybuffer',
       });

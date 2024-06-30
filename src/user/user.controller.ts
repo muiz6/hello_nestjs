@@ -1,17 +1,31 @@
-import { Controller, Delete, Get, NotFoundException, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Res } from '@nestjs/common';
 import axios from 'axios';
 import { UserService } from './user.service';
 import { StorageService } from 'src/storage/storage.service';
+import { CreateUserRequestDto } from './createUser.request.dto';
+import { EmailService } from 'src/email/email.service';
+import { MqService } from 'src/mq/mq.service';
 
 @Controller('users')
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly storageService: StorageService,
+    private readonly emailService: EmailService,
+    private readonly mqService: MqService,
   ) { }
 
   @Post()
-  async createUser() { }
+  async createUser(@Body() createUser: CreateUserRequestDto) {
+    await this.userService.createUserRecord({
+      email: createUser.email,
+      firstName: createUser.firstName,
+      lastName: createUser.lastName,
+    });
+
+    await this.mqService.createMessage();
+    await this.emailService.createEmail(createUser.email);
+  }
 
   @Get(':id')
   async getUser(@Param() params) {

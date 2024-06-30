@@ -18,15 +18,15 @@ export class UserService {
   }
 
   async getUserRecordById(id: string) {
-    return this.userModel.findOne({ id });
+    return this.userModel.findOne({ reqresId: id });
   }
 
-  async createUser(user: User) {
+  async createUserRecord(user: User) {
     const createdUser = new this.userModel(user);
     await createdUser.save();
   }
 
-  async getUserImage() { }
-
-  async deleteUserImage() { }
+  async deleteUserRecord(id: string) {
+    await this.userModel.deleteOne({ reqresId: id });
+  }
 }
